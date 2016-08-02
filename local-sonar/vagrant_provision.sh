@@ -13,10 +13,10 @@ echo "Downloading Sonar"
 wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.zip
 
 echo "Unpacking Sonar"
-unzip sonarqube-5.6.zip
+sudo unzip sonarqube-5.6.zip
 
 echo "Installing Sonar"
-mv -v sonarqube-5.6 /opt/sonar
+sudo mv -v sonarqube-5.6 /opt/sonar
 
 echo "Starting Sonar Server"
 sudo /opt/sonar/bin/linux-x86-64/sonar.sh start
