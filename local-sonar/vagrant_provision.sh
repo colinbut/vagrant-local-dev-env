@@ -7,6 +7,7 @@ sudo yum update
 # yum package manager does not have all latest software on its default repository
 sudo yum install -y epel-release
 sudo yum install -y wget
+sudo yum install -y unzip
 
 echo "Downloading Sonar"
 wget https://sonarsource.bintray.com/Distribution/sonarqube/sonarqube-5.6.zip
