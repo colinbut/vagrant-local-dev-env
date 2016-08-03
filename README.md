@@ -1,4 +1,5 @@
-## vagrant-local-dev-env
+## Local Development Environment
+
 An isolated local development environment managed by Vagrant
 
 | Resource          | URL                       | 
