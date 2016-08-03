@@ -44,7 +44,7 @@ then
 	sudo yum update
 	sudo yum install -y jenkins
 
-	sed -i 's/8080/6060/g' /etc/default/jenkins
+	sed -i 's/8080/6060/g' /etc/sysconfig/jenkins
 	/etc/init.d/jenkins restart
 else
 	echo "Jenkins already installed - not Installing"
