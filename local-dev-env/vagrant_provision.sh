@@ -7,6 +7,7 @@ sudo yum update
 # yum package manager does not have all latest software on its default repository
 sudo yum install -y epel-release
 sudo yum install -y wget
+sudo yum install -y unzip
 
 #Java
 if [ ! -f /opt/jdk1.7.0_79/bin/java ];
