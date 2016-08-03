@@ -73,7 +73,7 @@ fi
 #Git
 if [ ! -f /usr/bin/git ];
 then
-	echo "Installing Git"
+	echo "Installing Git locally"
 	sudo yum install -y git
 else
 	echo "Git already installed - skipping"
@@ -90,10 +90,11 @@ else
 	echo "NGINX already installed - skipping"
 fi
 
+
+#MySQL Server
 echo "Setting up MySQL Community Repo"
 sudo rpm -Uvh http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
 
-#MySQL Server
 if [ ! -f /usr/sbin/mysqld ];
 then
 	echo "Installing MySQL Server"
