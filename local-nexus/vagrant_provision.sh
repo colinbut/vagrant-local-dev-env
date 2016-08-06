@@ -48,7 +48,10 @@ sed -i "s@nexus-work=${bundleBasedir}/../sonatype-work/nexus@nexus-work=/srv/nex
 sudo sed -i 's/NEXUS_HOME=".."/NEXUS_HOME="\/usr\/lib\/nexus\/nexus"/g' /etc/init.d/nexus
 
 #Set PID dir
-sudo sed -i 's/#PIDDIR="."/PIDDIR="\/var\/run"/g' /etc/init.d/nexus 
+sudo sed -i 's/#PIDDIR="."/PIDDIR="\/var\/run"/g' /etc/init.d/nexus  
+#Set RUN_AS user to root
+sed -i 's/#RUN_AS_USER=/RUN_AS_USER=root/' /etc/init.d/nexus  
+
 
 
 
