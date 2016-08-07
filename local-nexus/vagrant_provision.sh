@@ -43,14 +43,20 @@ ln -s nexus-2.1.2/ nexus
 echo "Creating Nexus Repository"
 sudo mkdir -pv /srv/nexus/main-repo
 
+echo "Configuring Nexus properties"
 sed -i "s@nexus-work=${bundleBasedir}/../sonatype-work/nexus@nexus-work=/srv/nexus/main-repo@g" /usr/lib/nexus/nexus/conf/nexus.properties
 
-sudo sed -i 's/NEXUS_HOME=".."/NEXUS_HOME="\/usr\/lib\/nexus\/nexus"/g' /etc/init.d/nexus
+sudo sed -i 's/NEXUS_HOME=".."/NEXUS_HOME="\/usr\/lib\/nexus\/nexus"/g' /usr/lib/nexus/nexus/bin/nexus
 
 #Set PID dir
-sudo sed -i 's/#PIDDIR="."/PIDDIR="\/var\/run"/g' /etc/init.d/nexus  
+sudo sed -i 's/#PIDDIR="."/PIDDIR="\/var\/run"/g' /usr/lib/nexus/nexus/bin/nexus  
 #Set RUN_AS user to root
-sed -i 's/#RUN_AS_USER=/RUN_AS_USER=root/' /etc/init.d/nexus  
+sed -i 's/#RUN_AS_USER=/RUN_AS_USER=root/' /usr/lib/nexus/nexus/bin/nexus 
+
+sudo cp /usr/lib/nexus/nexus/bin/nexus /etc/init.d/nexus
+
+echo "Starting Nexus"
+sudo /usr/lib/nexus/nexus/bin/nexus console
 
 
 
