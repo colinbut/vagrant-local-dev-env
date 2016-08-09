@@ -28,35 +28,29 @@ else
 fi
 
 echo "Downloading Nexus"
-cd /tmp/
-wget www.sonatype.org/downloads/nexus-2.1.2-bundle.tar.gz
-
-mkdir -v /usr/lib/nexus
-cd /usr/lib/nexus
+cd /usr/local/
+sudo wget www.sonatype.org/downloads/nexus-2.13.0-01-bundle.zip
 
 echo "Extracting Nexus"
-tar -xzvf /tmp/nexus-2.1.2-bundle.tar.gz nexus-2.1.2/
+sudo unzip nexus-2.13.0-01-bundle.zip
 
-echo "Setting up Symbolic links"
-ln -s nexus-2.1.2/ nexus
+sudo ln -s nexus-2.13.0-01 nexus
 
-echo "Creating Nexus Repository"
-sudo mkdir -pv /srv/nexus/main-repo
+echo "Adding Nexus User"
+sudo useradd nexus
+sudo chown -R nexus:nexus nexus
+sudo chown -R nexus:nexus nexus-2.13.0-01
+sudo chown -R nexus:nexus sonatype-work
 
-echo "Configuring Nexus properties"
-sed -i "s@nexus-work=${bundleBasedir}/../sonatype-work/nexus@nexus-work=/srv/nexus/main-repo@g" /usr/lib/nexus/nexus/conf/nexus.properties
+echo "Configuring Nexus script to have correct environment properties"
+sudo sed -i 's/NEXUS_HOME=".."/NEXUS_HOME="\/usr\/local\/nexus"/g' /usr/local/nexus/bin/nexus
+sudo sed -i 's/#RUN_AS_USER=/RUN_AS_USER=nexus/' /usr/local/nexus/bin/nexus
 
-sudo sed -i 's/NEXUS_HOME=".."/NEXUS_HOME="\/usr\/lib\/nexus\/nexus"/g' /usr/lib/nexus/nexus/bin/nexus
-
-#Set PID dir
-sudo sed -i 's/#PIDDIR="."/PIDDIR="\/var\/run"/g' /usr/lib/nexus/nexus/bin/nexus  
-#Set RUN_AS user to root
-sed -i 's/#RUN_AS_USER=/RUN_AS_USER=root/' /usr/lib/nexus/nexus/bin/nexus 
-
-sudo cp /usr/lib/nexus/nexus/bin/nexus /etc/init.d/nexus
+echo "Removing nexus download zip"
+sudo rm nexus-2.13.0-01-bundle.zip
 
 echo "Starting Nexus"
-sudo /usr/lib/nexus/nexus/bin/nexus console
+sudo /usr/local/nexus/bin/nexus start
 
 
 
