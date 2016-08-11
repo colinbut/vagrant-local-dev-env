@@ -1,6 +1,6 @@
 ## Local Development Environment
 
-An isolated local development environment managed by Vagrant
+A local development environment managed by Vagrant
 
 | Resource          		| Server IP                   | URL |
 |:--------------------------|:--------------------------|:------|
