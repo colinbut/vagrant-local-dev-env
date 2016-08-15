@@ -30,8 +30,60 @@ fi
 #Git
 if [ ! -f /usr/bin/git ];
 then
-	echo "Installing Git locally"
+	echo "Installing Git"
 	sudo yum install -y git
 else
 	echo "Git already installed - skipping"
 fi
+
+#Apache Http Web Server
+if [ ! -f /usr/lib/apache2/mpm-worker/apache2 ];
+then
+	echo "Installing Apache"
+	sudo yum install -y httpd
+else
+	echo "Apache already installed - skipping"
+fi
+
+echo "Starting apache"
+sudo apachectl start
+
+#PHP 
+# (dependency requirement for GitList)
+echo "Installing PHP"
+sudo yum install -y php
+
+#GitList
+# (A Git Repository Viewer)
+echo "Downloading GitList"
+sudo wget https://s3.amazonaws.com/gitlist/gitlist-0.5.0.tar.gz
+echo "Extracting GitList"
+sudo mv gitlist-0.5.0.tar.gz /var/www/html
+cd /var/www/html/
+sudo tar -xvzf gitlist-0.5.0.tar.gz
+sudo rm gitlist-0.5.0.tar.gz
+
+cd /var/www/html/gitlist
+sudo mkdir cache
+sudo chmod 777 cache
+
+sudo mkdir /var/www/projects/
+
+sudo mv config.ini-example config.ini
+sudo sed 's%\/home\/git\/repositories%\/var\/www\/projects%g' config.ini
+
+echo "Disabling SELinux"
+sudo sed 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+
+# At this point GitList should be installed 
+# It is just a matter of configuration for use
+
+# 1. Reboot VM after vagrant up - so vagrant up again after shutdown
+# 2. Need to change /var/www/html's AllowOverride from None to All in the default Apache website config file
+#    (CentOS this is /etc/httpd/conf/httpd.conf)
+# 2. Restart Apache (sudo apachectl restart)
+
+
+
+
